@@ -1,2 +1,5 @@
 # adventofcode2020
-my code for advent of code 2020. (yes, this may be outdated, since the puzzles were from a month ago, but I can still do these problems!)
+This is my code for Advent of Code 2020. I'll try to post solutions on a wiki.
+
+# Other notes
+I may not be able to solve all the problems, and may not be able to finish all the problems. I may not do a problem each day, by the way...
