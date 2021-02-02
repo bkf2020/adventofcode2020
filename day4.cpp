@@ -2,8 +2,14 @@
 using namespace std;
 
 bool check_height(string height) {
-	int h = stoi(height.substr(0 ,height.size() - 2));
-	string type = height.substr(height.size() - 3, 2);
+	string h_str;
+	for(int i = 0; i < (int) height.size(); i++) {
+		if(isdigit(height[i])) h_str += height[i];
+		else break;
+	}
+	int h = stoi(h_str);
+	string type = to_string(height[height.size() - 2]);
+	type += to_string(height[height.size() - 1]);
 	if(type == "in") {
 		if(h >= 59 && h <= 76) return true;
 		return false;
@@ -49,6 +55,7 @@ void part2() {
 	while(getline(cin, line)) {
 		if(line == "") {
 			bool ok = true;
+			cout << info["byr"] << ' ' << info["iyr"] << ' ' << info["eyr"] << ' ' << info["hgt"] << ' ' << info["hcl"] << ' ' << info["ecl"] << ' ' << info["pid"] << '\n';
 			if(!filled["byr"] || !is_integer(info["byr"]) || stoi(info["byr"]) > 2002 || stoi(info["byr"]) < 1920) ok = false;
 			if(!filled["iyr"] || !is_integer(info["iyr"]) || stoi(info["iyr"]) > 2020 || stoi(info["iyr"]) < 2010) ok = false;
 			if(!filled["eyr"] || !is_integer(info["eyr"]) || stoi(info["eyr"]) > 2030 || stoi(info["eyr"]) < 2020) ok = false;
