@@ -2,7 +2,7 @@
 using namespace std;
 
 bool check_height(string height) {
-	int h = height.substr(0 ,height.size() - 2);
+	int h = stoi(height.substr(0 ,height.size() - 2));
 	string type = height.substr(height.size() - 3, 2);
 	if(type == "in") {
 		if(h >= 59 && h <= 76) return true;
@@ -22,15 +22,15 @@ bool check_eye(string eye) {
 bool check_hair(string hair) {
 	if(hair[0] != '#') return false;
 	if(hair.size() != 7) return false;
-	for(int i = 1; i <= hair.size(); i++) {
+	for(int i = 0; i < (int) hair.size(); i++) {
 		if(!isalnum(hair[i])) return false;
 	}
 	return true;
 }
 
 bool is_integer(string s) {
-	for(int i = 0; i < s.size(); i++) {
-		if(!(s == '0' || s == '1' || s == '2' || s == '3' || s == '4' || s == '5' || s == '6' || s == '7' || s == '8' || s == '9')) {
+	for(int i = 0; i < (int) s.size(); i++) {
+		if(!isdigit(s[i])) {
 			return false;
 		}
 	}
@@ -42,41 +42,43 @@ void part2() {
 	int valid = 0;
 	string check[8] = {"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid", "cid"};
 	map<string, string> info;
-	map<string, string> filled;
+	map<string, bool> filled;
 	for(string c : check) {
 		filled[c] = false;
 	}
 	while(getline(cin, line)) {
 		if(line == "") {
 			bool ok = true;
-			if(!filled["byr"] || !is_integer(info["byr"] || stoi(info["byr"]) > 2002 || stoi(info["byr"]) < 1920) ok = false;
-			if(!filled["iyr"] || !is_integer(info["iyr"] || stoi(info["iyr"]) > 2020 || stoi(info["iyr"]) < 2010) ok = false;
-			if(!filled["eyr"] || !is_integer(info["eyr"] || stoi(info["eyr"]) > 2030 || stoi(info["eyr"]) < 2020) ok = false;
+			if(!filled["byr"] || !is_integer(info["byr"]) || stoi(info["byr"]) > 2002 || stoi(info["byr"]) < 1920) ok = false;
+			if(!filled["iyr"] || !is_integer(info["iyr"]) || stoi(info["iyr"]) > 2020 || stoi(info["iyr"]) < 2010) ok = false;
+			if(!filled["eyr"] || !is_integer(info["eyr"]) || stoi(info["eyr"]) > 2030 || stoi(info["eyr"]) < 2020) ok = false;
 			if(!filled["hgt"] || !check_height(info["hgt"])) ok = false;
-			if(!filled["hcl"] || !check_hair(info["hcl"]) ok = false;
-			if(!filled["ecl"] || !check_eye(info["ecl"]) ok = false;
-			if(!filled["pid"] || !is_integer(info["pid"] || pid.size() != 9) ok = false;
+			if(!filled["hcl"] || !check_hair(info["hcl"])) ok = false;
+			if(!filled["ecl"] || !check_eye(info["ecl"])) ok = false;
+			if(!filled["pid"] || !is_integer(info["pid"]) || info["pid"].size() != 9) ok = false;
 			if(ok) valid++;
 			for(string c : check) {
 				filled[c] = false;
 			}
 		}
-		stringstream ss(line);
-		string part;
-		while(ss >> part) {
-			info[part.substr(0, 3)] = part.substr(3, part.size() - 3);
-			filed[part.substr(0, 3)] = true;
+		else {
+			stringstream ss(line);
+			string part;
+			while(ss >> part) {
+				info[part.substr(0, 3)] = part.substr(4, part.size() - 3);
+				filled[part.substr(0, 3)] = true;
+			}
 		}
 	}
 	// check for last passport
 	bool ok = true;
-	if(!filled["byr"] || !is_integer(info["byr"] || stoi(info["byr"]) > 2002 || stoi(info["byr"]) < 1920) ok = false;
-	if(!filled["iyr"] || !is_integer(info["iyr"] || stoi(info["iyr"]) > 2020 || stoi(info["iyr"]) < 2010) ok = false;
-	if(!filled["eyr"] || !is_integer(info["eyr"] || stoi(info["eyr"]) > 2030 || stoi(info["eyr"]) < 2020) ok = false;
+	if(!filled["byr"] || !is_integer(info["byr"]) || stoi(info["byr"]) > 2002 || stoi(info["byr"]) < 1920) ok = false;
+	if(!filled["iyr"] || !is_integer(info["iyr"]) || stoi(info["iyr"]) > 2020 || stoi(info["iyr"]) < 2010) ok = false;
+	if(!filled["eyr"] || !is_integer(info["eyr"]) || stoi(info["eyr"]) > 2030 || stoi(info["eyr"]) < 2020) ok = false;
 	if(!filled["hgt"] || !check_height(info["hgt"])) ok = false;
-	if(!filled["hcl"] || !check_hair(info["hcl"]) ok = false;
-	if(!filled["ecl"] || !check_eye(info["ecl"]) ok = false;
-	if(!filled["pid"] || !is_integer(info["pid"] || pid.size() != 9) ok = false;
+	if(!filled["hcl"] || !check_hair(info["hcl"])) ok = false;
+	if(!filled["ecl"] || !check_eye(info["ecl"])) ok = false;
+	if(!filled["pid"] || !is_integer(info["pid"]) || info["pid"].size() != 9) ok = false;
 	if(ok) valid++;
 	for(string c : check) {
 		filled[c] = false;
